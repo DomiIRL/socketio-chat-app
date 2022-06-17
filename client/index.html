@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket IO Chat App</title>
+    <script src="./client.ts" type="module"></script>
+    <script src="./contextmenu.ts" type="module"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="side-bar" class="noselect">
+    <div id="side-bar-wrapper">
+<!--        <div id="channel-creation">-->
+<!--            &lt;!&ndash;                <form autocomplete="off">&ndash;&gt;-->
+<!--            <label>-->
+<!--                <input id="channel-creation-input" type="text">-->
+<!--                <button id="channel-creation-button">Create</button>-->
+<!--            </label>-->
+<!--            &lt;!&ndash;                </form>&ndash;&gt;-->
+<!--        </div>-->
+        <div id="channel-list">
+            <div id="channel-entry">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="channel-view">
+
+    <div id="header" class="noselect">
+        <a id="channel-name">#Global</a>
+    </div>
+
+    <div id="below-header">
+
+        <div id="player-bar" class="noselect">
+            <div id="player-bar-header">
+                <a id="online-counter">Online: 0</a>
+            </div>
+            <div id="player-bar-list-wrapper">
+                <ul id="player-bar-list"></ul>
+            </div>
+        </div>
+
+        <div id="chat-box">
+            <div id="message-container" class="allowed-context-menu">
+            </div>
+            <div id="message-bar" class="noselect">
+                <form id="send-form" autocomplete="off">
+                    <label>
+                        <input maxlength="30" id="username-input" placeholder="Username" type="text">
+                        <input maxlength="1000" id="message-input" placeholder="Message" type="text">
+                        <button id="send-button" type="submit">Send</button>
+                    </label>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
