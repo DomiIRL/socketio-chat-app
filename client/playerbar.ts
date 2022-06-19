@@ -25,6 +25,7 @@ export function setOnlineUsers(users: Array<string>) {
     })
 
     if (onlineUsers != null) {
+        // @ts-ignore
         onlineUsers.replaceChildren()
 
         namedUsers.forEach(user => {

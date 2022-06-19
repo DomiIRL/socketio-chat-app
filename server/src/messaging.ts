@@ -26,6 +26,7 @@ export function sendMessage(room: string | null, username: string, message: stri
     if (message == "" || message.length > 1000) return;
     sendOnlineUsers(room1.id);
     const msg = new Message(room, username, message, new Date().getTime());
+    room1.history.push(msg);
 
     addMessage(msg);
     if (io != null) {
@@ -39,8 +40,11 @@ export function sendHistory(socket: Socket) {
     const dates = new Array<Number>();
 
     const room = getRoomObject(socket);
-    if (room == null) return;
-    console.log(`Sending history to room ${room.id} with size ${room.history.length}`)
+    if (room == null) {
+        console.log("Can't send history to player without room");
+        return;
+    }
+    console.log(`Sending history to room ${room.id} with size ${room.history.length}`);
 
     room.history.forEach((message: Message) => {
         usernames.push(message.username);
@@ -48,7 +52,7 @@ export function sendHistory(socket: Socket) {
         dates.push(message.time);
     });
 
-    console.log("Send history")
+    console.log("Send history");
     socket.emit("history", usernames, messages, dates);
 }
 

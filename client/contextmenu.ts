@@ -4,6 +4,7 @@ document.body.oncontextmenu = ev => {
 
 const elements = document.getElementsByClassName("allowed-context-menu");
 
+// @ts-ignore
 for (let element of elements) {
     element.addEventListener("contextmenu", event => {
         event.returnValue = true;

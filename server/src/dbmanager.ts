@@ -13,6 +13,7 @@ export function initDB() {
         } else if (err) {
             console.log("Getting error " + err);
         }
+
         createTables(db);
         runQueries(db);
     });
@@ -62,15 +63,25 @@ function runQueries(db:any) {
        rows.forEach((row: any) => {
            rooms.set(row.id, new Room(row.id, row.name, new Array<Message>()))
        });
+
+        if (!rooms.has("0")) {
+            addRoom("0", "Global");
+            console.log("Created default channel")
+        }
+
+        db.all("select * from messages", (err: any, rows: any) => {
+            if (rows === undefined) return;
+            rows.forEach((row: any) => {
+                const room = rooms.get(row.room.toString());
+                if (room != null) {
+                    room.history.push(new Message(row.room, row.username, row.message, row.time))
+                }
+            });
+        });
+
+        console.log("Finished loading database");
+
+
     });
 
-    db.all("select * from messages", (err: any, rows: any) => {
-        if (rows === undefined) return;
-        rows.forEach((row: any) => {
-            const room = rooms.get(row.room.toString());
-            if (room != null) {
-                room.history.push(new Message(row.room, row.username, row.message, row.time))
-            }
-        });
-    });
 }

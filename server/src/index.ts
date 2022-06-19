@@ -1,7 +1,7 @@
 import {Server, Socket} from "socket.io";
 import {initMessaging, sendHistory, sendMessage, sendOnlineUsers} from "./messaging";
 import {getRoom, removeUser, setName, setRoom} from "./usersafe";
-import {initDB} from "./dbmanager";
+import {addRoom, initDB} from "./dbmanager";
 import {createRoom, Room, rooms} from "./rooms";
 
 export const io = new Server(3030, {
@@ -19,7 +19,7 @@ io.on("connection", socket => {
     joinRoom(socket, "0");
 
     socket.on("send-message", (username: string, message: string) => {
-        console.log("Received message from " + username)
+        console.log(`Received message from ${username} with content ${message}`)
         sendMessage(getRoom(socket), username, message, socket);
     });
 
@@ -44,7 +44,10 @@ io.on("connection", socket => {
 
 function joinRoom(socket: Socket, room: string) {
     console.log(`Join room: ${room}`)
-    if (!rooms.has(room)) return;
+    if (!rooms.has(room)) {
+        console.log("Room does not exist");
+        return;
+    }
 
     const oldRoom = getRoom(socket);
     if (oldRoom != null) {
@@ -66,7 +69,7 @@ export function getRoomObject(socket: Socket) : Room | null | undefined {
 function sendRoomsToSocket(socket: Socket) {
     let roomNames = new Array<string>();
 
-    for (let value of rooms.values()) {
+    for (let value of Array.from(rooms.values())) {
         roomNames.push(value.name);
     }
 
@@ -76,7 +79,7 @@ function sendRoomsToSocket(socket: Socket) {
 function sendRooms() {
     let roomNames = new Array<string>();
 
-    for (let value of rooms.values()) {
+    for (let value of Array.from(rooms.values())) {
         roomNames.push(value.name);
     }
 

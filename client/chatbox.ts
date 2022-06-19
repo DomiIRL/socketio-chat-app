@@ -28,6 +28,7 @@ export function getUsername() {
 
 export function loadHistory(usernames: Array<string>, messages: Array<string>, timestamps: Array<number>) {
     if (messageContainer != null) {
+        // @ts-ignore
         messageContainer.replaceChildren();
     }
     for (let i = 0; i < usernames.length; i++) {
@@ -63,6 +64,13 @@ export function displayMessage(username: string, message: string, time: number) 
     const timestampElem = messageBox.querySelector(".timestamp");
     if (messageElem != null) {
         messageElem.textContent = message;
+        findYoutube(messageElem.innerHTML, data => {
+            const frameElement = document.createElement("iframe");
+            frameElement.src = data;
+            frameElement.width = "550";
+            frameElement.height = "309.4";
+            messageBox.appendChild(frameElement);
+        });
         findImage(messageElem.innerHTML, data => {
             const imageElement = document.createElement("img");
             const aElement = document.createElement("a");
@@ -97,6 +105,23 @@ function findImage(inputText: string, imageCallback: FunctionStringCallback) {
     const exec = regExp.exec(inputText);
     if (exec) {
         imageCallback(exec[0]);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * TODO: EXECUTE CALLBACK FOR EVERY MATCH
+ *
+ * @param inputText the text that is searched for matches
+ * @param videoCallback a callback that gets executed for the first match
+ */
+function findYoutube(inputText: string, videoCallback: FunctionStringCallback) {
+    const youtubeTest = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    const regExp = new RegExp(youtubeTest);
+    const exec = regExp.exec(inputText);
+    if (exec) {
+        videoCallback(`https://www.youtube.com/embed/${exec[1]}`);
         return true;
     }
     return false;
