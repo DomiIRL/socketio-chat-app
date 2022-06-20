@@ -1,15 +1,15 @@
 ## TODO:
 
 ### Not Finished
-- Is typing display
-- Backend-Service in Docker Container auslagern
 - Tests mit Jest
+- Is typing display
 - Users
 - Channels
 
 ### Working on
 
 ### Finished
+- Backend-Service in Docker Container auslagern
 - Message Boxes
 - Add database to gitignore
 - Fix user input html markup

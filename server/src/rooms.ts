@@ -4,18 +4,26 @@ import { addRoom, removeRoom } from "./dbmanager";
 export const rooms: Map<string, Room> = new Map();
 
 export function createRoom(roomName: string) : string | null {
-    if (roomName.trim() == "") return null;
+    if (onlySpaces(roomName) || roomName.length > 12) return null;
     const id = nanoid();
-
     rooms.set(id, new Room(id, roomName, new Array<Message>()));
-
     addRoom(id, roomName);
     return id;
+}
+
+export function createRoomWithId(roomName: string, id: string) {
+    if (onlySpaces(roomName) || roomName.length > 12) return;
+    rooms.set(id, new Room(id, roomName, new Array<Message>()));
+    addRoom(id, roomName);
 }
 
 export function deleteRoom(id: string) {
     rooms.delete(id);
     removeRoom(id);
+}
+
+function onlySpaces(str: string) {
+    return /^\s*$/.test(str);
 }
 
 export class Room {

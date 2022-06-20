@@ -1,14 +1,24 @@
 import {Server, Socket} from "socket.io";
-import {initMessaging, sendHistory, sendMessage, sendOnlineUsers} from "./messaging";
-import {getRoom, removeUser, setName, setRoom} from "./usersafe";
-import {addRoom, initDB} from "./dbmanager";
-import {createRoom, Room, rooms} from "./rooms";
+require("log-timestamp");
+import {
+    initMessaging,
+    sendHistory,
+    sendMessage,
+    sendOnlineUsers,
+    updateOnlineUsers
+} from "./messaging";
+import { getRoom, removeUser, setName, setRoom } from "./usersafe";
+import { initDB } from "./dbmanager";
+import { createRoom, Room, rooms } from "./rooms";
 
 export const io = new Server(3030, {
     cors: {
         // origin: "http://localhost:3000"
-    }
+    },
+    connectTimeout: 1000
 });
+
+console.log("Starting chatapp server")
 
 initDB();
 
@@ -19,13 +29,13 @@ io.on("connection", socket => {
     joinRoom(socket, "0");
 
     socket.on("send-message", (username: string, message: string) => {
-        console.log(`Received message from ${username} with content ${message}`)
+        console.log("Received message from " + username)
         sendMessage(getRoom(socket), username, message, socket);
     });
 
     socket.on("disconnect", () => {
-        removeUser(socket);
         sendOnlineUsers(getRoom(socket));
+        removeUser(socket);
     });
 
     socket.on("create-room", (name: string) => {
@@ -33,11 +43,15 @@ io.on("connection", socket => {
         const id = createRoom(name);
         console.log("Room created with id: " + id);
         if (id != null) {
-            socket.join(id);
+            joinRoom(socket, id);
             sendHistory(socket);
             sendOnlineUsers(getRoom(socket));
             sendRooms();
         }
+    });
+
+    socket.on("join-room", (id: string) => {
+        joinRoom(socket, id);
     });
 
 });
@@ -50,13 +64,14 @@ function joinRoom(socket: Socket, room: string) {
     }
 
     const oldRoom = getRoom(socket);
+    if (oldRoom == room) return;
     if (oldRoom != null) {
         socket.leave(oldRoom);
     }
 
     socket.join(room);
     setRoom(socket, room);
-    sendOnlineUsers(getRoom(socket));
+    updateOnlineUsers(oldRoom, room);
     sendHistory(socket);
     console.log(`Joined room: ${room}`)
 }

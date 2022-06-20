@@ -1,4 +1,4 @@
-import * as chatbox from "./chatbox";
+import * as chatbox from "./chat";
 
 const onlineCount = document.getElementById("online-counter");
 const onlineUsers = document.getElementById("player-bar-list");
@@ -25,7 +25,6 @@ export function setOnlineUsers(users: Array<string>) {
     })
 
     if (onlineUsers != null) {
-        // @ts-ignore
         onlineUsers.replaceChildren()
 
         namedUsers.forEach(user => {

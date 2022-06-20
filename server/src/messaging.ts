@@ -15,15 +15,16 @@ export function sendMessage(room: string | null, username: string, message: stri
         console.log("Received message from user without a room");
         return;
     }
-    if (socket != null && usernames.get(socket) !== username) {
+    if (socket != null && !onlySpaces(username) && usernames.get(socket) !== username) {
         setName(socket, username);
         sendOnlineUsers(getRoom(socket));
     }
     const room1 = rooms.get(room);
     if (room1 == null) {
+        console.log("Room object is null")
         return;
     }
-    if (message == "" || message.length > 1000) return;
+    if (onlySpaces(message) || message.length > 1000) return;
     sendOnlineUsers(room1.id);
     const msg = new Message(room, username, message, new Date().getTime());
     room1.history.push(msg);
@@ -32,6 +33,10 @@ export function sendMessage(room: string | null, username: string, message: stri
     if (io != null) {
         io.to(room1.id).emit("send-message", username, message, msg.time);
     }
+}
+
+function onlySpaces(str: string) {
+    return /^\s*$/.test(str);
 }
 
 export function sendHistory(socket: Socket) {
@@ -44,7 +49,7 @@ export function sendHistory(socket: Socket) {
         console.log("Can't send history to player without room");
         return;
     }
-    console.log(`Sending history to room ${room.id} with size ${room.history.length}`);
+    console.log(`Sending history to user of room ${room.id} with size ${room.history.length}`);
 
     room.history.forEach((message: Message) => {
         usernames.push(message.username);
@@ -53,13 +58,24 @@ export function sendHistory(socket: Socket) {
     });
 
     console.log("Send history");
-    socket.emit("history", usernames, messages, dates);
+    socket.emit("history", getRoomObject(socket)?.name, usernames, messages, dates);
 }
 
 export function sendOnlineUsers(room: string | null | undefined) {
     if (room != null) {
-        io.to(room).emit("online-user", Array.from(usernames.values()));
+        const names = new Array<string>();
+        usernames.forEach((value, key) => {
+            if (getRoom(key) == room) {
+                names.push(value);
+            }
+        })
+        io.to(room).emit("online-user", names);
     }
+}
+
+export function updateOnlineUsers(oldRoom: string | null | undefined, newRoom: string | null | undefined) {
+    sendOnlineUsers(oldRoom);
+    sendOnlineUsers(newRoom);
 }
 
 export class Channel {

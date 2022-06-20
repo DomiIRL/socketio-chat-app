@@ -10,20 +10,17 @@
 <body>
 
 <div id="side-bar" class="noselect">
-    <div id="side-bar-wrapper">
-<!--        <div id="channel-creation">-->
-<!--            &lt;!&ndash;                <form autocomplete="off">&ndash;&gt;-->
-<!--            <label>-->
-<!--                <input id="channel-creation-input" type="text">-->
-<!--                <button id="channel-creation-button">Create</button>-->
-<!--            </label>-->
-<!--            &lt;!&ndash;                </form>&ndash;&gt;-->
-<!--        </div>-->
-        <div id="channel-list">
-            <div id="channel-entry">
 
-            </div>
-        </div>
+    <div id="room-creation">
+        <form id="create-form" autocomplete="off">
+            <label>
+                <input id="room-creation-input" maxlength="15" type="text">
+                <button id="room-creation-button">Create</button>
+            </label>
+        </form>
+    </div>
+    <div id="room-list">
+
     </div>
 
 </div>
@@ -31,7 +28,7 @@
 <div id="channel-view">
 
     <div id="header" class="noselect">
-        <a id="channel-name">#Global</a>
+        <a id="room-name">#</a>
     </div>
 
     <div id="below-header">

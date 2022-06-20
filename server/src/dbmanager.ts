@@ -1,4 +1,4 @@
-import {Message, Room, rooms} from "./rooms";
+import { createRoomWithId, Message, Room, rooms } from "./rooms";
 
 const sqlite3 = require("sqlite3");
 
@@ -6,17 +6,16 @@ let db: any;
 
 export function initDB() {
 
-    db = new sqlite3.Database('chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
-        console.log("Finished loading db file")
-        createTables(db);
-        runQueries(db);
-
+    db = new sqlite3.Database('data/chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
         if (err && err.code == "SQLITE_CANTOPEN") {
             createDatabase();
             return;
         } else if (err) {
             console.log("Getting error " + err);
         }
+        console.log("Finished loading db file")
+        createTables(db);
+        runQueries(db);
     });
 
 }
@@ -41,9 +40,12 @@ export function removeRoom(id: string) {
 
 function createDatabase() {
     console.log("Creating new database..")
-    db = new sqlite3.Database('chat.db', (err: any) => {
+    db = new sqlite3.Database('data/chat.db', (err: any) => {
         if (err) {
             console.log("Getting error " + err);
+        } else {
+            createTables(db);
+            runQueries(db);
         }
     });
 }
@@ -52,9 +54,7 @@ function createTables(db:any) {
     db.exec("create table if not exists messages (room varchar, username varchar, message varchar, time INTEGER)");
     db.exec("create table if not exists rooms (id varchar, name varchar)");
     try {
-        db.exec("alter table messages add column room varcher default '0'", (err: any) => {
-
-        });
+        db.exec("alter table messages add column room varcher default '0'", (err: any) => {});
     } catch (exception) { }
 }
 
@@ -69,7 +69,7 @@ function runQueries(db:any) {
         }
 
         if (!rooms.has("0")) {
-            addRoom("0", "Global");
+            createRoomWithId("Global", "0");
             console.log("Created default room")
         }
 
@@ -82,8 +82,8 @@ function runQueries(db:any) {
                 }
             });
         });
-        console.log("Finished loading database");
-
 
     });
+
+    console.log("Finished loading database");
 }
