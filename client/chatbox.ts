@@ -69,10 +69,7 @@ export function displayMessage(username: string, message: string, time: number) 
             frameElement.src = data;
             frameElement.width = "550";
             frameElement.height = "309.4";
-<<<<<<< Updated upstream
-=======
             frameElement.className = "embed"
->>>>>>> Stashed changes
             messageBox.appendChild(frameElement);
         });
         findImage(messageElem.innerHTML, data => {
