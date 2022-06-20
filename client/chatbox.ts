@@ -69,6 +69,10 @@ export function displayMessage(username: string, message: string, time: number) 
             frameElement.src = data;
             frameElement.width = "550";
             frameElement.height = "309.4";
+<<<<<<< Updated upstream
+=======
+            frameElement.className = "embed"
+>>>>>>> Stashed changes
             messageBox.appendChild(frameElement);
         });
         findImage(messageElem.innerHTML, data => {
@@ -78,9 +82,9 @@ export function displayMessage(username: string, message: string, time: number) 
             aElement.target = "_blank";
             imageElement.src = data;
             imageElement.alt = "";
+            imageElement.className = "image embed";
             aElement.appendChild(imageElement);
             messageBox.appendChild(aElement);
-            imageElement.className = "image";
         });
         messageElem.innerHTML = linkify(messageElem.innerHTML);
         usernameElem.textContent = username;
@@ -201,9 +205,9 @@ export function loadTextColor() {
     const item = localStorage.getItem("text-color");
     console.log(item);
     if (item != null) {
-        document.body.style.color = item;
+        document.documentElement.style.setProperty("--font-color", item);
     } else {
-        document.body.style.color = "#000000";
+        document.documentElement.style.setProperty("--font-color", "#333333");
     }
 }
 

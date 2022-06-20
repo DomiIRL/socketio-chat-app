@@ -1,3 +1,7 @@
+:root {
+    --font-color: #333333;
+}
+
 html, body {
     padding: 0;
     margin: 0;
@@ -12,6 +16,11 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
+    color: #333333;
+}
+
+body:not(.no-custom-font) {
+    color: var(--font-color);
 }
 
 * {
@@ -189,11 +198,17 @@ body {
 }
 
 .message-box .image {
+
+}
+
+.message-box .embed {
     max-width: 70%;
     margin-top: 7px;
     margin-left: 0.25%;
     margin-right: 0.25%;
     border-radius: 10px;
+    outline: none;
+    border: none;
 }
 
 #message-bar {

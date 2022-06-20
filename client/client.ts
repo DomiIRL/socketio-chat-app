@@ -5,11 +5,14 @@ import * as playerbar from "./playerbar";
 chatbox.loadBackgroundImage();
 chatbox.loadTextColor();
 
-const socket: Socket = io("http://172.18.16.37:3030")
+const socket: Socket = io("http://172.18.16.37:8000")
+// const socket: Socket = io("http://localhost:3030")
 socket.on('connect', () => {
     console.log("Connected. " + socket.id)
 
     chatbox.init(socket);
+
+    // socket.emit("create-room", "Global")
 
     chatbox.loadNameFromStorage();
 

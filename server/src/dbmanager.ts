@@ -6,16 +6,17 @@ let db: any;
 
 export function initDB() {
 
-    db = new sqlite3.Database('./chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
+    db = new sqlite3.Database('chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
+        console.log("Finished loading db file")
+        createTables(db);
+        runQueries(db);
+
         if (err && err.code == "SQLITE_CANTOPEN") {
             createDatabase();
             return;
         } else if (err) {
             console.log("Getting error " + err);
         }
-
-        createTables(db);
-        runQueries(db);
     });
 
 }
@@ -51,7 +52,7 @@ function createTables(db:any) {
     db.exec("create table if not exists messages (room varchar, username varchar, message varchar, time INTEGER)");
     db.exec("create table if not exists rooms (id varchar, name varchar)");
     try {
-        db.exec("alter table messages add column room varcher default 0", (err: any) => {
+        db.exec("alter table messages add column room varcher default '0'", (err: any) => {
 
         });
     } catch (exception) { }
@@ -59,14 +60,17 @@ function createTables(db:any) {
 
 function runQueries(db:any) {
     db.all("select * from rooms", (err: any, rows: any) => {
-       if (rows === undefined) return;
-       rows.forEach((row: any) => {
-           rooms.set(row.id, new Room(row.id, row.name, new Array<Message>()))
-       });
+        if (rows !== undefined) {
+            rows.forEach((row: any) => {
+                console.log("Loading room: " + row.name);
+                rooms.set(row.id, new Room(row.id, row.name, new Array<Message>()))
+            });
+
+        }
 
         if (!rooms.has("0")) {
             addRoom("0", "Global");
-            console.log("Created default channel")
+            console.log("Created default room")
         }
 
         db.all("select * from messages", (err: any, rows: any) => {
@@ -78,10 +82,8 @@ function runQueries(db:any) {
                 }
             });
         });
-
         console.log("Finished loading database");
 
 
     });
-
 }

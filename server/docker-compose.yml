@@ -5,3 +5,7 @@ services:
     build: .
     ports:
       - "8000:3030"
+    volumes:
+      - "chat-app:/home/node/app"
+volumes:
+  chat-app:
