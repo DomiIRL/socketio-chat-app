@@ -1,0 +1,21 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  only:
+    refs:
+      - main
+  script:
+    - sudo docker build --no-cache -t chat-server:latest server
+    - sudo docker build --no-cache -t chat-client:latest client
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - main
+  script:
+    - sudo docker-compose -f server/docker-compose.yml up -d
+    - sudo docker-compose -f client/docker-compose.yml up -d

@@ -41,3 +41,5 @@ dist/**/*
 yarn.lock
 
 server/data/chat.db
+client/package-lock.json
+server/package-lock.json

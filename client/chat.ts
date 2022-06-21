@@ -1,9 +1,10 @@
 import {Socket} from "socket.io-client";
 import * as chatbox from "./chatbox";
 
-let form = document.getElementById("send-form");
-let textInput = document.getElementById("message-input");
-let usernameInput = document.getElementById("username-input");
+const form = document.getElementById("send-form");
+const textInput = document.getElementById("message-input");
+const usernameInput = document.getElementById("username-input");
+const defaultBackground = document.body.style.backgroundImage;
 
 export const defaultName = "Anonymous";
 
@@ -40,7 +41,7 @@ export function loadBackgroundImage() {
     if (item != null) {
         document.body.style.backgroundImage = `url(${item})`;
     } else {
-        document.body.style.backgroundImage = "url('assets/bg.jpg')";
+        document.body.style.backgroundImage = defaultBackground;
     }
 }
 

@@ -1,15 +1,17 @@
 ## TODO:
 
 ### Not Finished
+- Add environment variables for config
 - Tests mit Jest
 - Is typing display
 - Users
-- Channels
 
 ### Working on
 
 ### Finished
+- Frontend in Docker Container auslagern
 - Backend-Service in Docker Container auslagern
+- Channels
 - Message Boxes
 - Add database to gitignore
 - Fix user input html markup
