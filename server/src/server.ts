@@ -10,10 +10,11 @@ import {
 import { getRoom, removeUser, setName, setRoom } from "./usersafe";
 import { initDB } from "./dbmanager";
 import { createRoom, Room, rooms } from "./rooms";
+import { port } from "../config";
 
-export const io = new Server(3030, {
+export const io = new Server(port, {
     cors: {
-        // origin: "http://localhost:3000"
+        
     },
     connectTimeout: 1000
 });
@@ -34,8 +35,9 @@ io.on("connection", socket => {
     });
 
     socket.on("disconnect", () => {
-        sendOnlineUsers(getRoom(socket));
+        const room = getRoom(socket);
         removeUser(socket);
+        sendOnlineUsers(room);
     });
 
     socket.on("create-room", (name: string) => {

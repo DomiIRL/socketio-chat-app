@@ -6,7 +6,7 @@ services:
     image: chat-server:latest
     restart: always
     ports:
-      - "8000:3030"
+      - "3030:3030"
     volumes:
       - "chat-app:/home/node/app/data"
 volumes:

@@ -64,7 +64,27 @@ export function loadTextColor() {
     }
 }
 
-if (form != null) {
+if (form != null && textInput != null) {
+
+    textInput.addEventListener("keydown", e => {
+        const keyCode = e.which || e.keyCode;
+
+        if (keyCode === 13 && e.shiftKey) {
+            e.preventDefault();
+            (<HTMLInputElement>e.target).value = (<HTMLInputElement>e.target).value + "\\n";
+        }
+    });
+
+    textInput.addEventListener("paste", e => {
+        // @ts-ignore
+        let paste = (e.clipboardData || window.clipboardData).getData('text');
+        console.log(paste)
+
+        typeInTextarea(paste.replace(/(\r\n|\n|\r)/gm, "\\n"))
+
+        e.preventDefault();
+    });
+
     form.addEventListener("submit", e => {
         console.log("Submit message");
         e.preventDefault();
@@ -96,6 +116,15 @@ if (form != null) {
         (<HTMLInputElement>textInput).value = "";
         socket.emit("send-message", username, message);
     })
+}
+
+function typeInTextarea(newText: string, el = document.activeElement) {
+    if (el != null) {
+    // @ts-ignore
+    const [start, end] = [el.selectionStart, el.selectionEnd];
+    // @ts-ignore
+    el.setRangeText(newText, start, end, 'select');
+    }
 }
 
 function executeBackgroundCommand(input: string, args: string[]) {

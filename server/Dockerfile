@@ -27,4 +27,4 @@ COPY --from=builder /home/node/app/dist ./dist
 #COPY --chown=node:node  /public ./public
 
 EXPOSE 3030
-CMD [ "node", "dist/src/index.js" ]
+CMD [ "node", "dist/src/server.js" ]

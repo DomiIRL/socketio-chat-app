@@ -74,6 +74,8 @@ body:not(.no-custom-font) {
     justify-content: center;
     align-items: center;
     margin-bottom: 7px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #room-entry:hover {
@@ -103,10 +105,6 @@ body:not(.no-custom-font) {
     border: 2px solid transparent;
     border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
     border-image-slice: 1;
-}
-
-#room-entry {
-    overflow: hidden;
 }
 
 #channel-view {
@@ -139,6 +137,7 @@ body:not(.no-custom-font) {
     padding-left: 20px;
     padding-right: 20px;
     width: 600px;
+    white-space: nowrap;
 }
 
 #below-header {
@@ -223,8 +222,12 @@ body:not(.no-custom-font) {
 }
 
 .message-box .message {
+    font-family: monospace;
+    white-space: pre-wrap;
     font-size: 15px;
     margin: 0;
+    padding: 0;
+    word-break: break-all;
 }
 
 .message-box .image {

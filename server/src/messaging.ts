@@ -2,7 +2,7 @@ import { addMessage } from "./dbmanager";
 import {getRoom, setName, usernames} from "./usersafe";
 import { Socket } from "socket.io";
 import {Message, rooms} from "./rooms";
-import {getRoomObject} from "./index";
+import {getRoomObject} from "./server";
 
 let io: any;
 
@@ -24,7 +24,7 @@ export function sendMessage(room: string | null, username: string, message: stri
         console.log("Room object is null")
         return;
     }
-    if (onlySpaces(message) || message.length > 1000) return;
+    if (onlySpaces(message) || message.length > 5000) return;
     sendOnlineUsers(room1.id);
     const msg = new Message(room, username, message, new Date().getTime());
     room1.history.push(msg);

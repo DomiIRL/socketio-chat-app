@@ -4,7 +4,7 @@ import { addRoom, removeRoom } from "./dbmanager";
 export const rooms: Map<string, Room> = new Map();
 
 export function createRoom(roomName: string) : string | null {
-    if (onlySpaces(roomName) || roomName.length > 12) return null;
+    if (onlySpaces(roomName) || roomName.length > 15) return null;
     const id = nanoid();
     rooms.set(id, new Room(id, roomName, new Array<Message>()));
     addRoom(id, roomName);
@@ -12,7 +12,7 @@ export function createRoom(roomName: string) : string | null {
 }
 
 export function createRoomWithId(roomName: string, id: string) {
-    if (onlySpaces(roomName) || roomName.length > 12) return;
+    if (onlySpaces(roomName) || roomName.length > 15) return;
     rooms.set(id, new Room(id, roomName, new Array<Message>()));
     addRoom(id, roomName);
 }

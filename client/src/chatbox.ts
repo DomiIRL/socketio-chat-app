@@ -37,6 +37,7 @@ export function displayMessage(username: string, message: string, time: number) 
     const timestampElem = messageBox.querySelector(".timestamp");
     if (messageElem != null) {
         messageElem.textContent = message;
+        messageElem.innerHTML = messageElem.innerHTML.replace(/\\n/g, "<br>");
         findVideo(messageElem.innerHTML, data => {
             const frameElement = document.createElement("iframe");
             frameElement.src = data;

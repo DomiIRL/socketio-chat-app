@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "main": "client.ts",
+  "main": "src/client.ts",
   "scripts": {
     "test": "jest",
     "devstart": "vite",

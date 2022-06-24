@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Socket IO Chat App</title>
-    <script src="./client.ts" type="module"></script>
-    <script src="./contextmenu.ts" type="module"></script>
+    <script src="./src/client.ts" type="module"></script>
+    <script src="./src/contextmenu.ts" type="module"></script>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -49,7 +49,7 @@
                 <form id="send-form" autocomplete="off">
                     <label>
                         <input maxlength="30" id="username-input" placeholder="Username" type="text">
-                        <input maxlength="1000" id="message-input" placeholder="Message" type="text">
+                        <input maxlength="5000" id="message-input" placeholder="Message" type="text">
                         <button id="send-button" type="submit">Send</button>
                     </label>
                 </form>
