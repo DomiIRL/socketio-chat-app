@@ -1,8 +1,0 @@
-version: "3.3"
-services:
-  chat-client:
-    container_name: "chat-client"
-    image: chat-client:latest
-    restart: always
-    ports:
-      - "80:80"

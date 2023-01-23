@@ -1,13 +1,19 @@
 version: "3.3"
 services:
-  chat-server:
+  server:
     container_name: "chat-server"
-#    build: .
-    image: chat-server:latest
+    build: server
     restart: always
     ports:
       - "3030:3030"
     volumes:
       - "chat-app:/home/node/app/data"
+  client:
+    container_name: "chat-client"
+    build: client
+    image: chat-client:latest
+    restart: always
+    ports:
+      - "3033:80"
 volumes:
   chat-app:
