@@ -3,13 +3,13 @@ import * as chat from "./chat";
 import * as playerbar from "./playerbar";
 import * as chatBox from "./chatbox";
 import * as rooms from "./rooms";
-import { port } from "../config";
+import { port, host } from "../config";
 
 chat.loadBackgroundImage();
 chat.loadTextColor();
 chatBox.requestNotifications();
 
-const socket: Socket = io(`${document.location.hostname}:${port}`)
+const socket: Socket = io(`${host}:${port}`)
 socket.on('connect', () => {
     console.log("Connected. " + socket.id)
 
