@@ -9,7 +9,7 @@ chat.loadBackgroundImage();
 chat.loadTextColor();
 chatBox.requestNotifications();
 
-const socket: Socket = io(`${document.location.hostname}:${port}`)
+const socket: Socket = io(`${document.location.hostname}`)
 socket.on('connect', () => {
     console.log("Connected. " + socket.id)
 
