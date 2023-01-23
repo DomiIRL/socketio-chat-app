@@ -6,7 +6,7 @@ let db: any;
 
 export function initDB() {
 
-    db = new sqlite3.Database('chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
+    db = new sqlite3.Database('data/chat.db', sqlite3.OPEN_READWRITE, (err: any) => {
         if (err && err.code == "SQLITE_CANTOPEN") {
             createDatabase();
             return;
@@ -40,7 +40,7 @@ export function removeRoom(id: string) {
 
 function createDatabase() {
     console.log("Creating new database..")
-    db = new sqlite3.Database('chat.db', (err: any) => {
+    db = new sqlite3.Database('data/chat.db', (err: any) => {
         if (err) {
             console.log("Getting error " + err);
         } else {
