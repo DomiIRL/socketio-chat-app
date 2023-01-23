@@ -4,7 +4,7 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 COPY package*.json ./
 RUN npm config set unsafe-perm true
-RUN npm install -g npm@8.12.2
+RUN npm install -g npm@9.3.1
 RUN npm install -g typescript
 RUN npm install -g ts-node
 USER node

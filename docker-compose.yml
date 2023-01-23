@@ -11,7 +11,6 @@ services:
   client:
     container_name: "chat-client"
     build: client
-    image: chat-client:latest
     restart: always
     ports:
       - "3033:80"

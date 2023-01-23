@@ -16,3 +16,4 @@ FROM nginx
 RUN mkdir -p /usr/share/nginx/html
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /home/node/app/dist /usr/share/nginx/html
+EXPOSE 80
