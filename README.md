@@ -2,7 +2,7 @@
 
 Schülerpraktikum 13.06.2022 bis 24.06.2022
 
-## Setup server with docker
+## Setup with docker
 
 1. Run:
 ```
